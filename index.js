@@ -31,7 +31,12 @@ const run = async () => {
             const services = await cursor.toArray();
             res.send(services);
         });
-        
+        app.get('/recentServices', async (req, res) => {
+            const query = {};
+            const cursor = servicesCollection.find(query);
+            const services = await cursor.limit(3).toArray();
+            res.send(services);
+        });
         app.post('/services', async (req, res) => {
             const service = req.body;
             const result = await servicesCollection.insertOne(service);
