@@ -37,6 +37,12 @@ const run = async () => {
             const services = await cursor.limit(3).toArray();
             res.send(services);
         });
+        app.get('/service/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const services = await servicesCollection.findOne(query);
+            res.send(services);
+        });
         app.post('/services', async (req, res) => {
             const service = req.body;
             const result = await servicesCollection.insertOne(service);
