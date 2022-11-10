@@ -117,7 +117,29 @@ const run = async () => {
             res.send(result);
         });
 
-        
+        // Update 
+        app.get('/updateReviews/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const user = await reviewCollection.findOne(query);
+            res.send(user);
+        })
+        app.put('/updateReviews/:id', async (req, res) => {
+            const id = req.params.id;
+
+            const filter = { _id: ObjectId(id) };
+            const uReviews = req.body;
+            const option = { upsert: true };
+            const updatedReview = {
+                $set: {
+                    rating: uReviews.rating,
+                    reviewerFeedback: uReviews.reviewerFeedback
+                }
+            }
+            const result = await reviewCollection.updateOne(filter, updatedReview, option);
+            console.log(result);
+            res.send(result);
+        })
         
         
     }
