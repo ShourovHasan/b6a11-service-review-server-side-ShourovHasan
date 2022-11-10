@@ -79,7 +79,13 @@ const run = async () => {
 
         // Reviews 
         app.get('/reviewsByEmail', verifyJWT, async (req, res) => {
-            
+            const decoded = req.decoded;
+            console.log('Inside orders API', decoded);
+
+            // http://localhost:5000
+            if (decoded.email !== req.query.reviewerEmail) {
+                res.status(403).send({ message: 'Forbidden access' });
+            }
 
             let query = {};
             if (req.query.reviewerEmail) {
