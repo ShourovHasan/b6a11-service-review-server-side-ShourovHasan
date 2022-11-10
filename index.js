@@ -97,9 +97,26 @@ const run = async () => {
             const reviews = await cursor.toArray();
             res.send(reviews);
         });
+        // Reviews 
+        app.get('/reviews', async (req, res) => {
+            let query = {};
+            if (req.query.service) {
+                query = {
+                    service: req.query.service
+                }
+            }
+            const cursor = reviewCollection.find(query).sort('_id', -1);
+            const reviews = await cursor.toArray();
+            res.send(reviews);
+        });
         
-        
-        
+        app.post('/addReviews', async (req, res) => {
+            const review = req.body;
+            const result = await reviewCollection.insertOne(review);
+            // console.log("Review")
+            res.send(result);
+        });
+
         
         
         
