@@ -80,7 +80,7 @@ const run = async () => {
         // Reviews 
         app.get('/reviewsByEmail', verifyJWT, async (req, res) => {
             const decoded = req.decoded;
-            console.log('Inside orders API', decoded);
+            // console.log('Inside orders API', decoded);
 
             // http://localhost:5000
             if (decoded.email !== req.query.reviewerEmail) {
@@ -141,16 +141,14 @@ const run = async () => {
             res.send(result);
         })
         // delete 
-        app.delete('/reviews/:id', async (req, res) => {
+        app.delete('/reviews/:id', verifyJWT, async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await reviewCollection.deleteOne(query);
             res.send(result);
-        })
-        
+        })        
     }
     finally {
-
     }
 }
 run().catch(error => console.error(error))
